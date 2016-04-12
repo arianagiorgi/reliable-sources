@@ -1,0 +1,9 @@
+#TEMPLATE FOR CONNECTING REPO TO TWITTER API
+#FOLLOW INSTRUSTIONS AND REGISTER APP AT https://apps.twitter.com
+
+#WHEN COMPLETED, RENAME FILE TO `config.py`
+
+consumer_key = "YOUR_CONSUMER_KEY"
+consumer_secret = "YOUR_CONSUMER_SECRET"
+access_token = "YOUR-ACCESS_TOKEN"
+access_token_secret = "YOUR_ACCESS_TOKEN_SECRET"
