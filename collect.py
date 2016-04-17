@@ -4,9 +4,9 @@ from twython import Twython
 from config import (consumer_key, consumer_secret, access_token, access_token_secret)
 
 def filter_sources(tweet):
-	### TK
+	### Method to determind if sources are "reliable"
 
-	pass
+	return True
 
 def find_tweets(twitter, place_id):
 	### Return tweets from a certain place id
@@ -25,11 +25,12 @@ def find_tweets(twitter, place_id):
 		t = twitter.lookup_status(id = tweet_id)
 		tweet = json.loads( json.dumps(t) )
 
-		#sample parse for tweet output
-		print tweet[0]['user']['screen_name']+': '+tweet[0]['text']
-
 		#this is where we're going to filter these tweets then return
-		#filter_sources(tweet)
+		reliable = filter_sources(tweet)
+
+		if reliable == True:
+			#sample parse for tweet output
+			print tweet[0]['user']['screen_name']+': '+tweet[0]['text']
 
 		#pydrive?
 
