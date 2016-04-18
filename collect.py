@@ -2,16 +2,12 @@ import json
 from twython import Twython
 
 from config import (consumer_key, consumer_secret, access_token, access_token_secret)
+import sys
 
-def filter_sources(tweet, keyword):
+def filter_sources(twitter, tweet, keyword):
 	### Method to determind if sources are "reliable"
 
-	#is verified?
-	verified = tweet[0]['user']['verified']
-	if verified == 'True':
-		return True #do we want this?
-
-	#filter based on keywords in text
+	##filter based on keywords in text
 	text = tweet[0]['text'].lower()
 	
 	if keyword != '':
@@ -27,7 +23,7 @@ def filter_sources(tweet, keyword):
 			if omitted_word in text:
 				#if keywords appear in the tweet, its a bad tweet
 				return False
-	
+
 	return True
 
 def find_tweets(twitter, place_id, keyword):
@@ -48,7 +44,7 @@ def find_tweets(twitter, place_id, keyword):
 		tweet = json.loads( json.dumps(t) )
 
 		#this is where we're going to filter these tweets then return
-		reliable = filter_sources(tweet, keyword)
+		reliable = filter_sources(twitter, tweet, keyword)
 
 		if reliable == True:
 			#sample parse for tweet output
