@@ -43,7 +43,7 @@ def find_place(location):
 	twitter = Twython(consumer_key, consumer_secret, access_token, access_token_secret)
 
 	results = twitter.search_geo(query = location, max_results = '3')
-	
+
 	#turn results into json string, then turn json string into parsable dictionary
 	locations = json.loads( json.dumps(results) )
 
@@ -60,5 +60,3 @@ def find_place(location):
 	place_id = locations['result']['places'][place_number]['id']
 
 	find_tweets(twitter, place_id)
-
-
