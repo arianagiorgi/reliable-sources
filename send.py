@@ -14,10 +14,10 @@ def send_to_google_drive():
 
     #find and format the date to add to spreadsheet title
     today = date.today()
-    created_at = today.strftime('%b %d, %Y')
+    created_on = today.strftime('%b %d, %Y')
 
     #create spreadsheet within google drive
-    spreadsheet = drive.CreateFile({'title': spreadsheet_name + ": " + created_at, 'mimeType': 'application/vnd.google-apps.spreadsheet'})
+    spreadsheet = drive.CreateFile({'title': spreadsheet_name + ": " + created_on, 'mimeType': 'application/vnd.google-apps.spreadsheet'})
 
     #update spreadsheet
     spreadsheet.Upload()
