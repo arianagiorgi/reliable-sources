@@ -3,12 +3,34 @@ from twython import Twython
 
 from config import (consumer_key, consumer_secret, access_token, access_token_secret)
 
-def filter_sources(tweet):
+def filter_sources(tweet, keyword):
 	### Method to determind if sources are "reliable"
 
+	#is verified?
+	verified = tweet[0]['user']['verified']
+	if verified == 'True':
+		return True #do we want this?
+
+	#filter based on keywords in text
+	text = tweet[0]['text'].lower()
+	
+	if keyword != '':
+		#if the user specified a keyword in the input, check for keyword
+		if keyword.lower() not in text:
+			return False
+
+	with open('omit.txt', 'r') as f:
+		##open file with keywords and test them against the tweet
+		for line in f:
+			omitted_word = line.lower().rstrip()
+
+			if omitted_word in text:
+				#if keywords appear in the tweet, its a bad tweet
+				return False
+	
 	return True
 
-def find_tweets(twitter, place_id):
+def find_tweets(twitter, place_id, keyword):
 	### Return tweets from a certain place id
 
 	#`count` param defaults to 15, maximum of 100. using 3 for now to test
@@ -26,7 +48,7 @@ def find_tweets(twitter, place_id):
 		tweet = json.loads( json.dumps(t) )
 
 		#this is where we're going to filter these tweets then return
-		reliable = filter_sources(tweet)
+		reliable = filter_sources(tweet, keyword)
 
 		if reliable == True:
 			#sample parse for tweet output
@@ -36,13 +58,13 @@ def find_tweets(twitter, place_id):
 
 
 
-def find_place(location):
+def find_place(location, keyword=''):
 	### Determine place id based on querying location
 
 	#configure twython connection
 	twitter = Twython(consumer_key, consumer_secret, access_token, access_token_secret)
 
-	results = twitter.search_geo(query = location, max_results = '3')
+	results = twitter.search_geo(query = location, max_results = '5')
 
 	#turn results into json string, then turn json string into parsable dictionary
 	locations = json.loads( json.dumps(results) )
@@ -59,4 +81,4 @@ def find_place(location):
 
 	place_id = locations['result']['places'][place_number]['id']
 
-	find_tweets(twitter, place_id)
+	find_tweets(twitter, place_id, keyword)
