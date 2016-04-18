@@ -2,3 +2,4 @@ config.py
 client_secrets.json
 rs_env/
 *pyc
+venv/

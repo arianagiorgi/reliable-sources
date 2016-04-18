@@ -6,17 +6,8 @@ def send_to_google_drive():
     gauth = GoogleAuth()
     drive = GoogleDrive(gauth)
 
-    #create file within google drive
-    document = drive.CreateFile({'title': 'Reliable Sources.doc'})
+    #create spreadsheet within google drive
+    spreadsheet = drive.CreateFile({'title': 'test', 'mimeType': 'application/vnd.google-apps.spreadsheet'})
 
-    #set content to update
-    document.SetContentString('sources here will be printed to the document')
-
-    #udpate file
-    document.Upload()
-
-
-
-### still to do:
-### - create a doc once, then update the existing one
-### - update to the doc should be the source, not a random string
+    #update spreadsheet
+    spreadsheet.Upload()
