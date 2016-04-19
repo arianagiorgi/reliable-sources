@@ -38,8 +38,7 @@ Some locations may be too specific for Twitter. On April 19th there was an explo
 To search for pictures or videos of bikes in Austin:
 `python main.py 'Austin' 'bike filter:media'`
 
-Twitter API provides many other query operator examples [here](https://dev.twitter.com/rest/public/search)
+The Twitter API provides many other query operator examples [here](https://dev.twitter.com/rest/public/search).
 
 ## Twython ##
-List of interface options available [here](
-https://twython.readthedocs.org/en/latest/api.html)
+A list of interface options is available [here](https://twython.readthedocs.org/en/latest/api.html).
