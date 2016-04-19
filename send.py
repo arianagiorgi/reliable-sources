@@ -30,12 +30,15 @@ def send_to_google_drive(reliable_tweets):
     #open google sheet
     sheet = get_google_sheet()
 
-    #set the title of the worksheet user's location input as the title of the worksheet
-    worksheet_name = sys.argv[1]
+    #set the title of the worksheet user's location input and keyword, if applicable
+    if sys.argv[2]:
+        worksheet_name = sys.argv[1]+": "+sys.argv[2]
+    else:
+        worksheet_name = sys.argv[1]
 
     #find and format the date to add to worksheet title
     today = date.today()
-    created_on = datetime.now().strftime('%m-%d, %Y: %H:%M:%S')
+    created_on = datetime.now().strftime('%m-%d-%y: %H:%M:%S')
 
     #create a new worksheet with a title of the location and date
     new_worksheet = sheet.add_worksheet(title=worksheet_name+": "+created_on, rows="101", cols="20")
