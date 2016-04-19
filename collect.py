@@ -2,13 +2,14 @@ import json
 from twython import Twython
 
 from config import (consumer_key, consumer_secret, access_token, access_token_secret)
+from send import send_to_google_drive
 
 def filter_sources(tweet, keyword):
 	### Method to determind if sources are "reliable"
 
 	##filter based on keywords in text
 	text = tweet[0]['text'].lower()
-	
+
 	if keyword != '':
 		#if the user specified a keyword in the input, check for keyword
 		if keyword.lower() not in text:
@@ -22,18 +23,19 @@ def filter_sources(tweet, keyword):
 			if omitted_word in text:
 				#if keywords appear in the tweet, its a bad tweet
 				return False
-	
+
 	return True
 
 def find_tweets(twitter, place_id, keyword):
 	### Return tweets from a certain place id
 
 	#`count` param defaults to 15, maximum of 100. using 3 for now to test
-	results = twitter.search(q = 'place:'+place_id, count = '3')
+	results = twitter.search(q = 'place:'+place_id, count = '10')
 
 	#turn results in json string
 	tweets = json.loads( json.dumps(results) )
 
+	reliable_tweets = []
 	print "Tweets:"
 	for i in range(len(tweets['statuses'])):
 		tweet_id = tweets['statuses'][i]['id_str']
@@ -48,8 +50,9 @@ def find_tweets(twitter, place_id, keyword):
 		if reliable == True:
 			#sample parse for tweet output
 			print tweet[0]['user']['screen_name']+': '+tweet[0]['text']
+			reliable_tweets.append(tweet)
 
-		#pydrive?
+	send_to_google_drive(reliable_tweets)
 
 
 
