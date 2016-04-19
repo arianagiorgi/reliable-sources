@@ -26,9 +26,9 @@ def find_tweets(twitter, place_id, keyword):
 
 	#`count` param defaults to 15 with a maximum of 100
 	if keyword == '':
-		tweets = twitter.search(q = 'place:'+place_id, count = '10')
+		tweets = twitter.search(q = 'place:'+place_id, count = '15')
 	else:
-		tweets = twitter.search(q = 'place:'+place_id+' '+keyword, count = '10')
+		tweets = twitter.search(q = 'place:'+place_id+' '+keyword, count = '15')
 
 	reliable_tweets = []
 
@@ -42,7 +42,7 @@ def find_tweets(twitter, place_id, keyword):
 		reliable = filter_tweets(tweet, keyword)
 
 		if reliable == True:
-			print tweet[0]['user']['screen_name']+': '+tweet[0]['text']
+			#print tweet[0]['user']['screen_name']+': '+tweet[0]['text']
 			reliable_tweets.append(tweet)
 
 	send_to_google_drive(reliable_tweets)
