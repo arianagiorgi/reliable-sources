@@ -1,6 +1,6 @@
 import gspread
 import sys
-from datetime import date
+from datetime import date, datetime
 
 from access import get_google_sheet
 
@@ -14,7 +14,7 @@ def fetch_data(tweet):
 
     #check if there's an image included
     text = tweet[0]['text'].lower()
-	
+
     if 't.co' in text:
 		image = 'Yes'
     else:
@@ -35,7 +35,7 @@ def send_to_google_drive(reliable_tweets):
 
     #find and format the date to add to worksheet title
     today = date.today()
-    created_on = today.strftime('%b %d, %Y')
+    created_on = datetime.now().strftime('%m-%d, %Y: %H:%M:%S')
 
     #create a new worksheet with a title of the location and date
     new_worksheet = sheet.add_worksheet(title=worksheet_name+": "+created_on, rows="101", cols="20")
