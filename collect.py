@@ -35,7 +35,7 @@ def find_tweets(twitter, place_id, keyword):
 	### Return tweets from a certain place id
 
 	#`count` param defaults to 15, maximum of 100. using 3 for now to test
-	results = twitter.search(q = 'place:'+place_id, count = '100')
+	results = twitter.search(q = 'place:'+place_id, count = '10')
 
 	#turn results in json string
 	tweets = json.loads( json.dumps(results) )

@@ -1,32 +1,38 @@
+import gspread
 import sys
 
-from pydrive.auth import GoogleAuth
-from pydrive.drive import GoogleDrive
+from access import get_google_sheet
 from datetime import date
 
 def send_to_google_drive(reliable_tweets):
-    #set oauth
-    gauth = GoogleAuth()
-    drive = GoogleDrive(gauth)
+    #open google sheet
+    sheet = get_google_sheet()
 
-    #set the title of the spreadsheet user's location input as the title of the spreadsheet
-    spreadsheet_name = sys.argv[1]
+    #set the title of the worksheet user's location input as the title of the worksheet
+    worksheet_name = sys.argv[1]
 
-    #find and format the date to add to spreadsheet title
+    #find and format the date to add to worksheet title
     today = date.today()
     created_on = today.strftime('%b %d, %Y')
 
-    #create spreadsheet within google drive
-    spreadsheet = drive.CreateFile({'title': spreadsheet_name+": "+created_on, 'mimeType': 'text/csv'})
+    #create a new worksheet with a title of the location and date
+    new_worksheet = sheet.add_worksheet(title=worksheet_name+": "+created_on, rows="100", cols="20")
 
-    #update spreadsheet
-    content = 'User, Tweet, Timestamp\n'
+    #set headers
+    new_worksheet.update_cell(1, 1, 'User')
+    new_worksheet.update_cell(1, 2, 'Tweet')
+    new_worksheet.update_cell(1, 3, 'Timestamp')
 
+    #start filling data at the second row of the worksheet, as the first is populated with headers
+    i = 2
+
+    #iterate through each reliable tweet to fill the rows of the worksheet
     for tweet in reliable_tweets:
         username = tweet[0]['user']['screen_name']
         tweet_content = tweet[0]['text']
         timestamp = tweet[0]['created_at']
-        content += username+','+tweet_content+','+timestamp+'\n'
 
-    spreadsheet.SetContentString(content)
-    spreadsheet.Upload(param={'convert': True})
+        new_worksheet.update_cell(i, 1, username)
+        new_worksheet.update_cell(i, 2, tweet_content)
+        new_worksheet.update_cell(i, 3, timestamp)
+        i+=1
