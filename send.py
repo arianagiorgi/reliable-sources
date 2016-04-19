@@ -35,10 +35,10 @@ def send_to_google_drive(reliable_tweets):
     sheet = get_google_sheet()
 
     #prep worksheet title to include the user's location input and keyword, if applicable
-    if sys.argv[2]:
-        worksheet_name = sys.argv[1]+": "+sys.argv[2]
-    else:
+    if len(sys.argv) == 2:
         worksheet_name = sys.argv[1]
+    else:
+        worksheet_name = sys.argv[1]+": "+sys.argv[2]
 
     #find date and timestamp to be added to the worksheet title
     today = date.today()
