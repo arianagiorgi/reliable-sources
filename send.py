@@ -2,7 +2,7 @@ import gspread
 import sys
 
 from access import get_google_sheet
-from datetime import date
+from datetime import date, datetime
 
 def send_to_google_drive(reliable_tweets):
     #open google sheet
@@ -13,7 +13,7 @@ def send_to_google_drive(reliable_tweets):
 
     #find and format the date to add to worksheet title
     today = date.today()
-    created_on = today.strftime('%b %d, %Y')
+    created_on = datetime.now().strftime('%m-%d, %Y: %H:%M:%S')
 
     #create a new worksheet with a title of the location and date
     new_worksheet = sheet.add_worksheet(title=worksheet_name+": "+created_on, rows="100", cols="20")
@@ -36,3 +36,4 @@ def send_to_google_drive(reliable_tweets):
         new_worksheet.update_cell(i, 2, tweet_content)
         new_worksheet.update_cell(i, 3, timestamp)
         i+=1
+    
