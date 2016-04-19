@@ -1,19 +1,16 @@
 import json
 from twython import Twython
+import sys
 
 from config import (consumer_key, consumer_secret, access_token, access_token_secret)
 from send import send_to_google_drive
 
-def filter_sources(tweet, keyword):
-	### Method to determind if sources are "reliable"
+def filter_tweets(tweet, keyword):
+	### Method to filter out tweets that might be spam
+	### Edit omit.txt to update a list of keywords you want to exclude
 
-	##filter based on keywords in text
+	## filter based on keywords in text
 	text = tweet[0]['text'].lower()
-
-	if keyword != '':
-		#if the user specified a keyword in the input, check for keyword
-		if keyword.lower() not in text:
-			return False
 
 	with open('omit.txt', 'r') as f:
 		##open file with keywords and test them against the tweet
@@ -26,17 +23,21 @@ def filter_sources(tweet, keyword):
 
 	return True
 
+
 def find_tweets(twitter, place_id, keyword):
 	### Return tweets from a certain place id
 
 	#`count` param defaults to 15, maximum of 100. using 3 for now to test
-	results = twitter.search(q = 'place:'+place_id, count = '10')
+	if keyword == '':
+		results = twitter.search(q = 'place:'+place_id, count = '10')
+	else:
+		results = twitter.search(q = 'place:'+place_id+' '+keyword, count = '10')
 
 	#turn results in json string
 	tweets = json.loads( json.dumps(results) )
 
 	reliable_tweets = []
-	print "Tweets:"
+
 	for i in range(len(tweets['statuses'])):
 		tweet_id = tweets['statuses'][i]['id_str']
 
@@ -45,7 +46,7 @@ def find_tweets(twitter, place_id, keyword):
 		tweet = json.loads( json.dumps(t) )
 
 		#this is where we're going to filter these tweets then return
-		reliable = filter_sources(tweet, keyword)
+		reliable = filter_tweets(tweet, keyword)
 
 		if reliable == True:
 			#sample parse for tweet output
