@@ -8,17 +8,17 @@ def fetch_data(tweet):
     ### pull in and parse reliable tweets
 
     #find relevant information about the tweeter
-    username = tweet[0]['user']['screen_name']
-    followers = tweet[0]['user']['followers_count']
+    username = tweet['user']['screen_name']
+    followers = tweet['user']['followers_count']
 
     #find relevant information about the tweet
-    tweet_content = tweet[0]['text']
-    timestamp = tweet[0]['created_at']
-    favorites = tweet[0]['favorite_count']
-    retweets = tweet[0]['retweet_count']
+    tweet_content = tweet['text']
+    timestamp = tweet['created_at']
+    favorites = tweet['favorite_count']
+    retweets = tweet['retweet_count']
 
     #check to see if there is an image included
-    text = tweet[0]['text'].lower()
+    text = tweet['text'].lower()
 
     if 't.co' in text:
 		image = 'Yes'

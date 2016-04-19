@@ -7,7 +7,7 @@ def filter_tweets(tweet, keyword):
 	### edit omit.txt to update a list of keywords you want to exclude
 
 	#filter based on keywords in text
-	text = tweet[0]['text'].lower()
+	text = tweet['text'].lower()
 
 	with open('omit.txt', 'r') as f:
 		#open file with keywords and test them against the tweet
@@ -33,16 +33,14 @@ def find_tweets(twitter, place_id, keyword):
 	reliable_tweets = []
 
 	for i in range(len(tweets['statuses'])):
-		tweet_id = tweets['statuses'][i]['id_str']
 
-		#retrieve tweet based on tweet_id
-		tweet = twitter.lookup_status(id = tweet_id)
+		tweet = tweets['statuses'][i]
 
 		#send tweets through the filter
 		reliable = filter_tweets(tweet, keyword)
 
 		if reliable == True:
-			#print tweet[0]['user']['screen_name']+': '+tweet[0]['text']
+			# print tweet['user']['screen_name']+': '+tweet['text']
 			reliable_tweets.append(tweet)
 
 	send_to_google_drive(reliable_tweets)
