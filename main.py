@@ -1,7 +1,7 @@
 import sys
 
-from collect import (find_place)
-from send import (send_to_google_drive)
+from app.collect import (find_place)
+from app.send import (send_to_google_drive)
 
 def main():
 	if len(sys.argv) < 2:

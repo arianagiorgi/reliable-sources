@@ -3,3 +3,4 @@ credentials.json
 rs_env/
 *pyc
 venv/
+*.DS_Store

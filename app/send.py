@@ -2,7 +2,7 @@ import gspread
 import sys
 from datetime import date, datetime
 
-from app.access import get_google_sheet
+from access import get_google_sheet
 
 def fetch_data(tweet):
     ### pull in and parse reliable tweets

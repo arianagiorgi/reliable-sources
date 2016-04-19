@@ -1,6 +1,6 @@
 from twython import Twython
 from config import (consumer_key, consumer_secret, access_token, access_token_secret)
-from app.send import send_to_google_drive
+from send import send_to_google_drive
 
 def filter_tweets(tweet, keyword):
 	### method to filter out tweets that might be spam
